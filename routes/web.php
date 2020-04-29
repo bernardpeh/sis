@@ -16,13 +16,13 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('users',  ['uses' => 'UserController@showAllUsers']);
+    $router->get('users',  ['middleware' => 'auth', 'uses' => 'UserController@showAllUsers']);
 
-    $router->get('user/{id}', ['uses' => 'UserController@showOneUser']);
+    $router->get('user/{id}', ['middleware' => 'auth', 'uses' => 'UserController@showOneUser']);
 
-    $router->post('user', ['uses' => 'UserController@create']);
+    $router->post('user', ['middleware' => 'auth', 'uses' => 'UserController@create']);
 
-    $router->delete('user/{id}', ['uses' => 'UserController@delete']);
+    $router->delete('user/{id}', ['middleware' => 'auth', 'uses' => 'UserController@delete']);
 
-    $router->put('user/{id}', ['uses' => 'UserController@update']);
+    $router->put('user/{id}', ['middleware' => 'auth', 'uses' => 'UserController@update']);
 });

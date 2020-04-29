@@ -3,7 +3,6 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
-use App\Usergroup;
 use Faker\Generator as Faker;
 
 /*
@@ -26,5 +25,6 @@ $factory->define(User::class, function (Faker $faker) {
         'last_name' => $last_name,
         'pref_name' => $pref_name,
         'email' => $faker->email,
+        'api_key' => $faker->md5
     ];
 });
