@@ -15,24 +15,68 @@ class DatabaseSeeder extends Seeder
         \App\User::truncate();
         \App\Usergroup::truncate();
         \App\UserUsergroup::truncate();
-        $users = factory(\App\User::class, 4)->create();
-        // Insert fixed usergroups
-        DB::table('usergroups')->insert([
+
+        // create users using faker
+        // $users = factory(\App\User::class, 4)->create();
+
+        // create users by specifying specific users
+        DB::table('users')->insert([
             [
-                'type' => 0,
-                'name' => 'staff',
+                'first_name' => 'Student',
+                'last_name' => 'Test',
+                'pref_name' => 'student',
+                'email' => 'student@localhost',
+                'api_key' => 'student',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
-                'type' => 1,
+                'first_name' => 'Parent',
+                'last_name' => 'Test',
+                'pref_name' => 'parent',
+                'email' => 'parent@localhost',
+                'api_key' => 'parent',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'first_name' => 'Staff',
+                'last_name' => 'Test',
+                'pref_name' => 'staffttest',
+                'email' => 'stafft@localhost',
+                'api_key' => 'staff',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'first_name' => 'Admin',
+                'last_name' => 'Test',
+                'pref_name' => 'admintest',
+                'email' => 'admin@localhost',
+                'api_key' => 'admin',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+
+        ]);
+
+        // Insert fixed usergroups
+        DB::table('usergroups')->insert([
+            [
+                'type' => 0,
                 'name' => 'student',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
-                'type' => 2,
+                'type' => 1,
                 'name' => 'parent',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ],
+            [
+                'type' => 2,
+                'name' => 'staff',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
@@ -45,6 +89,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $usergroups = \App\Usergroup::all();
+        $users = \App\User::all();
+
         foreach ($users as $k => $v) {
             DB::table('user_usergroups')->insert([
                 'user_id' => $v->id,
