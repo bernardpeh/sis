@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Usergroup;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UsergroupController extends Controller
 {
     /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function showAll()
     {
-        return response()->json(User::all());
+        return response()->json(Usergroup::all());
     }
 
     /**
@@ -21,12 +21,19 @@ class UserController extends Controller
      */
     public function showOne($id)
     {
-        $user = User::find($id);
-        $usergroups = [];
-        foreach ($user->usergroups()->get() as $ug) {
-            $usergroups[] = $ug->name;
+        $usergroup = Usergroup::find($id);
+        $users = [];
+        foreach ($usergroup->users()->get() as $u) {
+            $users[] = [
+                'id' => $u->id,
+                'first_name' => $u->first_name,
+                'last_name' => $u->last_name,
+                'pref_name' => $u->pref_name,
+                'email' => $u->email,
+                'disabled' => $u->disabled
+            ];
         }
-        $res = $user->toArray()+['usergroups' => $usergroups];
+        $res = $usergroup->toArray()+['users' => $users];
         return response()->json($res);
     }
 
@@ -39,14 +46,11 @@ class UserController extends Controller
     {
         // validate request
         $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'pref_name' => 'required|alpha',
-            'email' => 'required|email|unique:users'
+            'name' => 'required',
         ]);
 
-        $user = User::create($request->all());
-        return response()->json($user, 201);
+        $usergroup = Usergroup::create($request->all());
+        return response()->json($usergroup, 201);
     }
 
     /**
@@ -56,9 +60,9 @@ class UserController extends Controller
      */
     public function update($id, Request $request)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        return response()->json($user, 200);
+        $usergroup = Usergroup::findOrFail($id);
+        $usergroup->update($request->all());
+        return response()->json($usergroup, 200);
     }
 
     /**
@@ -67,7 +71,7 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        User::findOrFail($id)->delete();
+        Usergroup::findOrFail($id)->delete();
         return response('Deleted Successfully', 200);
     }
 }

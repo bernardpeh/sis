@@ -12,7 +12,7 @@ class Usergroup extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type'
+        'name', 'type', 'disabled'
     ];
 
     /**
@@ -24,7 +24,7 @@ class Usergroup extends Model
         'created_at', 'updated_at'
     ];
 
-    public function user() {
-        $this->hasMany('App\UserUsergroup');
+    public function users() {
+        return $this->belongsToMany('App\User', 'user_usergroups');
     }
 }

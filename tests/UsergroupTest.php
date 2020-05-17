@@ -3,19 +3,22 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class UserTest extends TestCase
+class UsergroupTest extends TestCase
 {
     /**
-     * [GET] Get single User id 1
+     * [GET] Get single Usergroup id 1
      *
      * @return void
      */
-    public function testShouldReturnSingleUser()
+    public function testShouldReturnSingleUsergroup()
     {
-        $res = $this->get("/api/user/1", ['api_key' => 'student'])->response->getContent();
+        $res = $this->get("/api/usergroup/1", ['api_key' => 'student'])->response->getContent();
         $this->seeStatusCode(200);
         // should see student email
-        $this->seeJsonContains(['email' => 'student@localhost','usergroups' => [0=>'studentgroup']]);
+        $this->seeJsonContains(['name' => 'studentgroup']);
+        // count number of users
+        $res = json_decode($res);
+        $this->assertEquals(1, count($res->users));
     }
 
     /**
@@ -23,7 +26,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldReturnAllUsers()
+    public function testShouldReturnAllUsergroups()
     {
         $res = $this->get("/api/users", ['api_key' => 'student'])->response->getContent();
         $this->seeStatusCode(200);
@@ -36,37 +39,34 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testShouldCreateEditDeletUser()
+    public function testShouldCreateEditDeletUsergroup()
     {
         // create
         $data = [
-            'first_name' => 'phpunit',
-            'last_name' => 'Test',
-            'pref_name' => 'phpunit',
-            'email' => 'phpunit@localhost',
-            'api_key' => 'phpunit',
+            'name' => 'teststudentgroup',
+            'type' => 0,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s")
         ];
-        $this->post("/api/user", $data, ['api_key' => 'student']);
+        $this->post("/api/usergroup", $data, ['api_key' => 'student']);
         // should get 201 if insert is successful
         $this->seeStatusCode(201);
         // should see new email
-        $this->seeJsonContains(['email' => 'phpunit@localhost']);
+        $this->seeJsonContains(['name' => 'teststudentgroup']);
         $last_inserted_id = json_decode($this->response->getContent())->id;
 
         // edit newly inserted entry
         $data = [
-            'email' => 'phpunit1@localhost',
+            'name' => 'teststudentgroup1',
         ];
-        $this->put("/api/user/$last_inserted_id", $data, ['api_key' => 'phpunit']);
+        $this->put("/api/usergroup/$last_inserted_id", $data, ['api_key' => 'student']);
         // should get 200 if insert is successful
         $this->seeStatusCode(200);
         // should see updated email
-        $this->seeJsonContains(['email' => 'phpunit1@localhost']);
+        $this->seeJsonContains(['name' => 'teststudentgroup1']);
 
         // delete newly inserted entry
-        $this->delete("/api/user/$last_inserted_id",['api_key' => 'phpunit']);
+        $this->delete("/api/usergroup/$last_inserted_id",['api_key' => 'student']);
         // should get 200 if delete is successful
         $this->seeStatusCode(200);
     }

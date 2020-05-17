@@ -2,16 +2,10 @@
 
 namespace App;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model
 {
-    use Authenticatable, Authorizable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +24,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'created_at', 'updated_at'
     ];
 
-    public function usergroup() {
-        return $this->hasMany('App\UserUsergroup');
+    public function usergroups() {
+        return $this->belongsToMany('App\Usergroup', 'user_usergroups');
     }
 }

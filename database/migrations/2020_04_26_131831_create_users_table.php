@@ -19,8 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('pref_name');
             $table->string('email')->unique()->notNullable();
-            $table->boolean('disabled')->default(false);
+            $table->boolean('acct_disabled')->default(false);
             $table->string('api_key')->nullable();
+            $table->boolean('api_key_disabled')->default(false);
             $table->timestamps();
         });
     }

@@ -64,25 +64,25 @@ class DatabaseSeeder extends Seeder
         DB::table('usergroups')->insert([
             [
                 'type' => 0,
-                'name' => 'student',
+                'name' => 'studentgroup',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
                 'type' => 1,
-                'name' => 'parent',
+                'name' => 'parentgroup',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
                 'type' => 2,
-                'name' => 'staff',
+                'name' => 'staffgroup',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
                 'type' => 3,
-                'name' => 'admin',
+                'name' => 'admingroup',
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]
